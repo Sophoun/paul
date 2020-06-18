@@ -1,0 +1,123 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: "$rootDir/scripts/configs.gradle"
+
+android {
+    compileSdkVersion                   configs.compile_sdk
+    defaultConfig {
+        applicationId                   configs.application_id
+        minSdkVersion                   configs.min_sdk
+        targetSdkVersion                configs.target_sdk
+        versionCode                     configs.version_code
+        versionName                     configs.version_name
+        testInstrumentationRunner       configs.instrument_runner
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+                arguments = [
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"]
+            }
+        }
+    }
+
+    /**
+     * Currently we disable signing release config
+     * because we don't have an existing release key file.
+     * we will enable this function when we want to build
+     * a release apk.
+    signingConfigs {
+        release {
+            def keystorePropertiesFile = rootProject.file("secret/keystore.properties")
+            def keystoreProperties = new Properties()
+            keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    } */
+
+    buildTypes {
+        release {
+            minifyEnabled configs.minify_enabled
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            /**
+             * Disable signing config for release apk.
+             * we will enable this property when we want
+             * to build with keystore file.*/
+             // signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+        }
+        pro {
+            applicationIdSuffix ".pro"
+            versionNameSuffix "-pro"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
+                if (variant.productFlavors[0].name == "dev") {
+                    def versionCode = defaultConfig.versionCode
+                    def versionName = defaultConfig.versionName
+                    def newName = "${configs.appName}_dev_${versionName}_${versionCode}.apk"
+                    outputFileName = newName
+                }
+                if (variant.productFlavors[0].name == "pro") {
+                    def versionCode = defaultConfig.versionCode
+                    def versionName = defaultConfig.versionName
+                    def newName = "${configs.appName}_pro_${versionName}_${versionCode}.apk"
+                    outputFileName = newName
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":library")
+    // Test
+    implementation "androidx.test:core:1.2.0"
+    androidTestImplementation "androidx.test:runner:1.2.0"
+    androidTestImplementation "androidx.test:rules:1.2.0"
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
+    androidTestImplementation "junit:junit:4.12"
+    // JetPack
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+
+    implementation 'com.sophoun.android:navigator:0.0.1'
+    implementation "com.google.android.material:material:1.1.0"
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
+}
