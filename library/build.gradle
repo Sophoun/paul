@@ -33,6 +33,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Biometric
     implementation "androidx.biometric:biometric:1.0.1"
+    // Billing
+    implementation 'com.android.billingclient:billing:2.1.0'
     // Firebase
     implementation "com.google.firebase:firebase-analytics:17.4.3"
     // Common
