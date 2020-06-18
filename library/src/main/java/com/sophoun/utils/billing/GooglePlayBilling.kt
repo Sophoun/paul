@@ -56,7 +56,7 @@ class GooglePlayBilling private constructor(
     private val onError: (Exception) -> Unit,
     // Listeners
     private val onBillingUpdated: (billingResult: BillingResult, purchases: List<Purchase>) -> Unit,
-    private val onPurchaseHistoryUpdated: (billingResult: BillingResult, purchases: List<PurchaseHistoryRecord>) -> Unit
+    private val onPurchaseHistoryUpdated: (billingResult: BillingResult, purchases: List<PurchaseHistoryRecord>?) -> Unit
 ) {
 
     private val billingClientBuilder: BillingClient.Builder = BillingClient.newBuilder(context)
@@ -71,7 +71,7 @@ class GooglePlayBilling private constructor(
             onDisconnected.invoke()
         }
 
-        override fun onBillingSetupFinished(billingResult: BillingResult?) {
+        override fun onBillingSetupFinished(billingResult: BillingResult) {
             DLog.i("onBillingSetupFinished")
             onConnected.invoke()
         }
@@ -172,8 +172,11 @@ class GooglePlayBilling private constructor(
             .build()
         billingClient.querySkuDetailsAsync(skuDetailsParams) { billingResult, listSkuDetails ->
             if (billingResult.responseCode == BillingResponseCode.OK) {
-                DLog.i("Sku: %s", listSkuDetails.map { it.sku })
-                onQueryFinished.invoke(listSkuDetails)
+                DLog.i("querySkuDetailsAsync: listSkuDetails= $listSkuDetails")
+                listSkuDetails?.let {
+                    DLog.i("Sku: %s", listSkuDetails.map { it.sku })
+                    onQueryFinished.invoke(listSkuDetails)
+                }
             } else {
                 onError.invoke(Exception(billingResult.debugMessage))
             }
@@ -210,7 +213,7 @@ class GooglePlayBilling private constructor(
         private var onError: (Exception) -> Unit = {}
         // Initialize Billing update listener
         private var onBillingUpdated: (billingResult: BillingResult, purchases: List<Purchase>) -> Unit = { _, _  -> }
-        private var onPurchaseHistoryUpdated: (billingResult: BillingResult, purchasesHistory: List<PurchaseHistoryRecord>) -> Unit = { _, _ -> }
+        private var onPurchaseHistoryUpdated: (billingResult: BillingResult, purchasesHistory: List<PurchaseHistoryRecord>?) -> Unit = { _, _ -> }
 
         // Connection state
         fun onConnected(onConnected: () -> Unit) = apply { this@Builder.onConnected = onConnected }
@@ -219,7 +222,7 @@ class GooglePlayBilling private constructor(
 
         // Listeners
         fun onBillingUpdated(onBillingUpdated: (billingResult: BillingResult, purchases: List<Purchase>) -> Unit) = apply { this@Builder.onBillingUpdated = onBillingUpdated }
-        fun onPurchaseHistoryUpdated(onPurchaseHistoryUpdated: (billingResult: BillingResult, purchasesHistory: List<PurchaseHistoryRecord>) -> Unit) = apply { this@Builder.onPurchaseHistoryUpdated = onPurchaseHistoryUpdated }
+        fun onPurchaseHistoryUpdated(onPurchaseHistoryUpdated: (billingResult: BillingResult, purchasesHistory: List<PurchaseHistoryRecord>?) -> Unit) = apply { this@Builder.onPurchaseHistoryUpdated = onPurchaseHistoryUpdated }
 
         // Build GooglePlayBilling object
         fun build() = GooglePlayBilling(
