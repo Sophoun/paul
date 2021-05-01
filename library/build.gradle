@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 apply from: "$rootDir/scripts/configs.gradle"
+apply from: "$rootDir/scripts/jfrog_publish.gradle"
 
 android {
     compileSdkVersion                   configs.compile_sdk
@@ -29,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.Sophoun:android-utils:0.0.2'
+    //implementation 'com.github.sophoun:android-utils:0.0.2'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Biometric
     implementation "androidx.biometric:biometric:1.0.1"
