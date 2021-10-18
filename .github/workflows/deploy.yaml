@@ -18,4 +18,4 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Build and publish package to GitHub package
-        run: gradle library:publish
+        run: ./gradlew library:publish
