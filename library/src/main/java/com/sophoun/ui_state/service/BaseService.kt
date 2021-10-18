@@ -1,4 +1,4 @@
-package com.sophoun.ui.state.service
+package com.sophoun.ui_state.service
 
 import android.annotation.SuppressLint
 import android.app.Service

@@ -1,8 +1,8 @@
-package com.sophoun.ui.state
+package com.sophoun.ui_state
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.sophoun.ui.state.state.UiState
+import com.sophoun.ui_state.state.UiState
 import com.sophoun.utils.SingleLiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

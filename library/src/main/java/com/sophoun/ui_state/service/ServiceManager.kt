@@ -11,8 +11,6 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Message
 import android.os.Messenger
-import com.sophoun.ui.state.service.BaseService
-import com.sophoun.ui.state.service.Keys
 import com.sophoun.utils.SdkUtils
 import java.lang.Exception
 import java.util.concurrent.atomic.AtomicReference

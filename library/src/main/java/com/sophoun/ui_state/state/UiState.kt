@@ -1,4 +1,4 @@
-package com.sophoun.ui.state.state
+package com.sophoun.ui_state.state
 
 abstract class UiState {
     override fun equals(other: Any?): Boolean {

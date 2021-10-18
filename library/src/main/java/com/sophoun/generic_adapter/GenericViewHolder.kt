@@ -1,4 +1,4 @@
-package com.sophoun.generic.adapter
+package com.sophoun.generic_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,8 +8,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.RecyclerView
-import com.sophoun.ui.state.BaseViewModel
-import com.sophoun.ui.state.state.UiState
+import com.sophoun.ui_state.BaseViewModel
+import com.sophoun.ui_state.state.UiState
 
 abstract class GenericViewHolder<T>
     constructor(

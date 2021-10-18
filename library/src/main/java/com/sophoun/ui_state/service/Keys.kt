@@ -1,4 +1,4 @@
-package com.sophoun.ui.state.service
+package com.sophoun.ui_state.service
 
 object Keys {
     const val ADD_LISTENER = -101

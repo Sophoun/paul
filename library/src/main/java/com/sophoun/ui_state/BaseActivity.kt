@@ -1,4 +1,4 @@
-package com.sophoun.ui.state
+package com.sophoun.ui_state
 
 import android.os.Bundle
 import androidx.annotation.CallSuper
@@ -6,7 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentFactory
 import androidx.lifecycle.Observer
-import com.sophoun.ui.state.state.UiState
+import com.sophoun.ui_state.state.UiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

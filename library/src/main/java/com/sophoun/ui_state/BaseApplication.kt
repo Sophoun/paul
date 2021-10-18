@@ -1,4 +1,4 @@
-package com.sophoun.ui.state
+package com.sophoun.ui_state
 
 import android.app.Application
 

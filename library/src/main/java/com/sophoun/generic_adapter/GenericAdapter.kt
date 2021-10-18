@@ -1,4 +1,4 @@
-package com.sophoun.generic.adapter
+package com.sophoun.generic_adapter
 
 import android.annotation.SuppressLint
 import android.view.MotionEvent
