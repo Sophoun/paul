@@ -1,40 +1,35 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.3.72'
+    ext.kotlin_version = '1.5.31'
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath 'com.android.tools.build:gradle:3.6.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.15.2'
     }
 }
 
 plugins {
     id 'org.jetbrains.dokka' version '0.9.18'
-    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC15"
 }
 
 allprojects {
     repositories {
         google()
-        maven { url 'https://jitpack.io' }
-        jcenter()
         mavenCentral()
     }
 }
 
 // A task that include others
 task codequality(type: GradleBuild) {
-    description 'This task include clean, build, lint, ktlint, ktlintformat, detekt'
+    description 'This task include clean, build, lint, ktlint, ktlintformat'
     group = 'Code Quality'
-    tasks = ['cleanreports', 'check', 'build', 'detekt', 'dokka']
+    tasks = ['cleanreports', 'check', 'build', 'dokka']
 }
 
 // Custom task [Delete report directory]
@@ -42,27 +37,6 @@ task cleanReports(type: Delete) {
     delete rootProject.buildDir
     delete "$rootDir/reports/"
     delete "$rootDir/documentation/"
-}
-
-
-// Detekt
-detekt {
-    debug = true
-    failFast = true
-    input = files(
-            "$rootDir/app/src/main/java"
-    )
-    filters = ".*/resources/.*,.*/build/.*"
-    config = files("$rootDir/configs/default-detekt-config.yml")
-    reports {
-        xml {
-            enabled = false
-        }
-        html {
-            enabled = true
-            destination = file("reports/detekt/detekt.html")
-        }
-    }
 }
 
 // Documentation engine for Kotlin and Java

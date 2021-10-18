@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.allViews
 import androidx.recyclerview.widget.RecyclerView
-import org.jetbrains.anko.childrenRecursiveSequence
 
 abstract class GenericAdapter<T> : RecyclerView.Adapter<GenericViewHolder<T>>() {
 
@@ -63,14 +63,14 @@ abstract class GenericAdapter<T> : RecyclerView.Adapter<GenericViewHolder<T>>() 
         }
         // set click listener to child view from recycler adapter
         if (::onChildItemClickListener.isInitialized) {
-            holder.itemView.childrenRecursiveSequence().forEach { view ->
+            holder.itemView.allViews.forEach { view ->
                 view.setOnClickListener { handleOnChildItemClickListener(view, position, item) }
             }
         }
         // set click listener to child view from recycler adapter
         if (childItemIdClickedListener.isNotEmpty()) {
             childItemIdClickedListener.entries.forEach { map ->
-                holder.itemView.childrenRecursiveSequence().find { it.id == map.key }
+                holder.itemView.allViews.find { it.id == map.key }
                     ?.setOnClickListener {
                         handleOnChildItemIdClickListener(it, position, item)
                 }
