@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion                   31
@@ -43,4 +44,50 @@ dependencies {
     // okhttp
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+}
+
+// publish aar
+def libArtifactId = "android-utils"
+Properties properties = new Properties()
+properties.load(project.file("github.properties").newDataInputStream())
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Sophoun/android-utils")
+            credentials {
+                username = properties.getProperty("gpr.user")
+                password = properties.getProperty("gpr.key")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            groupId 'com.sohoun'
+            artifactId 'android-utils'
+            version '11.0'
+            artifact("$buildDir/outputs/aar/$libArtifactId-release.aar") {
+                builtBy build
+            }
+        }
+    }
+}
+
+/**
+ * Rename .aar file
+ */
+afterEvaluate {
+    def debugFile = file("$buildDir/outputs/aar/library-debug.aar")
+    def releaseFile = file("$buildDir/outputs/aar/library-release.aar")
+    tasks.named("assembleDebug").configure {
+        doLast {
+            debugFile.renameTo("$buildDir/outputs/aar/$libArtifactId-debug.aar")
+        }
+    }
+    tasks.named("assembleRelease").configure {
+        doLast {
+            releaseFile.renameTo("$buildDir/outputs/aar/$libArtifactId-release.aar")
+        }
+    }
 }

@@ -12,7 +12,8 @@
 /captures
 .externalNativeBuild
 reports
-/github.properties
+/library/github.properties
 .idea/*
 .idea
 /secret
+library/github.properties
