@@ -48,6 +48,8 @@ dependencies {
 
 // publish aar
 def libArtifactId = "paul"
+def libVersion = "11.2"
+
 Properties properties = new Properties()
 properties.load(project.file("github.properties").newDataInputStream())
 
@@ -65,8 +67,8 @@ publishing {
     publications {
         gpr(MavenPublication) {
             groupId 'com.sohoun'
-            artifactId 'android-utils'
-            version '11.1'
+            artifactId libArtifactId
+            version libVersion
             artifact("$buildDir/outputs/aar/$libArtifactId-release.aar") {
                 builtBy build
             }
