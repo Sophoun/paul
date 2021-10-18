@@ -3,17 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply from: "$rootDir/scripts/configs.gradle"
-
 android {
-    compileSdkVersion                   configs.compile_sdk
+    compileSdkVersion                   31
     defaultConfig {
-        applicationId                   configs.application_id
-        minSdkVersion                   configs.min_sdk
-        targetSdkVersion                configs.target_sdk
-        versionCode                     configs.version_code
-        versionName                     configs.version_name
-        testInstrumentationRunner       configs.instrument_runner
+        applicationId                   "com.sophou.utils"
+        minSdkVersion                   21
+        targetSdkVersion                31
+        versionCode                     1
+        versionName                     "1.0"
+        testInstrumentationRunner       "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -45,7 +43,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled configs.minify_enabled
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             /**
              * Disable signing config for release apk.
@@ -81,25 +79,6 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
-    }
-
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            if (output.outputFile != null && output.outputFile.name.endsWith('.apk')) {
-                if (variant.productFlavors[0].name == "dev") {
-                    def versionCode = defaultConfig.versionCode
-                    def versionName = defaultConfig.versionName
-                    def newName = "${configs.appName}_dev_${versionName}_${versionCode}.apk"
-                    outputFileName = newName
-                }
-                if (variant.productFlavors[0].name == "pro") {
-                    def versionCode = defaultConfig.versionCode
-                    def versionName = defaultConfig.versionName
-                    def newName = "${configs.appName}_pro_${versionName}_${versionCode}.apk"
-                    outputFileName = newName
-                }
-            }
-        }
     }
 
     packagingOptions {

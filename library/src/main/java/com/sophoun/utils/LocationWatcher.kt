@@ -44,14 +44,13 @@ class LocationWatcher(
      */
     fun getLocationUpdateFlow() = callbackFlow<Location>  {
         val locationUpdateListener = object: LocationListener {
-            override fun onLocationChanged(location: Location?) {
-                if (location != null) {
-                    offer(location)
-                }
+            override fun onLocationChanged(location: Location) {
+                offer(location)
             }
+
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-            override fun onProviderEnabled(provider: String?) {}
-            override fun onProviderDisabled(provider: String?) {}
+            override fun onProviderEnabled(provider: String) {}
+            override fun onProviderDisabled(provider: String) {}
         }
 
         try {
@@ -77,7 +76,7 @@ class LocationWatcher(
     suspend fun getLastLocation() = suspendCancellableCoroutine<Location> { cancelation ->
         try {
             val location = locationManager.getLastKnownLocation(provider)
-            cancelation.resume(location)
+            cancelation.resume(location!!)
         } catch (e: Exception) {
             cancelation.resumeWithException(e)
         }
