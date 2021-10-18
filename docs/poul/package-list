@@ -1,0 +1,15 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+
+com.sophoun.generic_adapter
+com.sophoun.navigator
+com.sophoun.network
+com.sophoun.query
+com.sophoun.ui_state
+com.sophoun.ui_state.service
+com.sophoun.ui_state.state
+com.sophoun.utils
+com.sophoun.utils.billing
+com.sophoun.utils.notification
+com.sophoun.utils.permission
+com.sophoun.utils.validation

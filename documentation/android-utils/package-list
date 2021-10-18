@@ -1,5 +1,0 @@
-$dokka.format:gfm
-$dokka.linkExtension:md
-
-com.sophoun.utils
-com.sophoun.utils.validation

@@ -35,14 +35,13 @@ task codequality(type: GradleBuild) {
 // Custom task [Delete report directory]
 task cleanReports(type: Delete) {
     delete rootProject.buildDir
-    delete "$rootDir/reports/"
-    delete "$rootDir/documentation/"
+    delete "$rootDir/docs/"
 }
 
 // Documentation engine for Kotlin and Java
 dokka {
     outputFormat = 'gfm'
-    outputDirectory = "$rootDir/documentation"
+    outputDirectory = "$rootDir/docs"
     sourceDirs = files(
             "$rootDir/library/src/main/java"
     )
