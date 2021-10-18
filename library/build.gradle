@@ -47,7 +47,7 @@ dependencies {
 }
 
 // publish aar
-def libArtifactId = "android-utils"
+def libArtifactId = "paul"
 Properties properties = new Properties()
 properties.load(project.file("github.properties").newDataInputStream())
 
@@ -55,7 +55,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Sophoun/android-utils")
+            url = uri("https://maven.pkg.github.com/Sophoun/paul")
             credentials {
                 username = properties.getProperty("gpr.user")
                 password = properties.getProperty("gpr.key")
